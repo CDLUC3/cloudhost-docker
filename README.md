@@ -1,14 +1,31 @@
-ucdn-docker
+UCDN Docker
 ===========
 
-Configuration for the UCDN project
+This is the build and deployment instructions for the UCDN service under Docker.
 
-Deploying new configurations
-----------------------------
+Requirements
+------------
 
-Define host ports and mount points to map with Docker ports and mounts.
+- Docker 
+- If Docker is run as non-root, user must have Docker privileges 
+  https://docs.docker.com/install/linux/linux-postinstall/
+
+Building Docker image
+---------------------
+
+This needs only be performed by UC3.  The image will be served by Dockerhub. 
 
 - docker build --tag=cdluc3/ucdn .
+
+Deploying image
+---------------
+
+This will initialize the container and start.  This needs only be performed once
+per UCDN instance.  See admin section for subsequent start/stop functions.
+
+Define host ports and mount points to map with Docker ports and mounts.
+Naming of your container is also available.  
+
 - docker run \
         --detach \
         --name ${NAME} \
@@ -18,15 +35,28 @@ Define host ports and mount points to map with Docker ports and mounts.
         --volume ${LOGDIR}:/apps/ucdn/logs \
         cdluc3/ucdn
 
-Now point browser to https://localhost:${PORT_HTTP}/cloudhost/state/8100?t=xml on linux to check status
-Check log directory to see confirm UCDN is logging correctly
+Test the container
+------------------
 
-### Admin tools
+The following URL on the deployed host will check UCDN status:
+    https://localhost:${PORT_HTTP}/cloudhost/state/8100?t=xml 
+
+${DATADIR} will house the pairtree data.
+${LOGDIR} will house the log files.
+
+###Administration tools
+
+To stop the UCDN service, just stop the container.  Same goes for starting.
+Reference the container name defined during initialization.
 
 Stop/Start container
 - docker container stop ${NAME}
 - docker container start ${NAME}
 
-Examine Docker container to check for debugging
+To examine UCDN container for debugging.
 - docker exec -it ${NAME} /bin/bash
 
+Template scripts
+----------------
+
+Provided scripts can be used as templates for much of the functionality described here.
