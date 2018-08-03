@@ -44,7 +44,8 @@ The following URL on the deployed host will check UCDN status:
 ${DATADIR} will house the pairtree data.
 ${LOGDIR} will house the log files.
 
-###Administration tools
+Administration tools
+--------------------
 
 To stop the UCDN service, just stop the container.  Same goes for starting.
 Reference the container name defined during initialization.
