@@ -22,6 +22,6 @@ docker run \
 	--publish ${PORT_HTTP}:38080 \
 	--volume ${DATADIR}:/apps/ucdn/fileCloud \
 	--volume ${LOGDIR}:/apps/ucdn/logs \
-	uc3/ucdn
+	cdluc3/ucdn
 
 exit

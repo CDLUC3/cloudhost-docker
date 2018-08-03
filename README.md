@@ -8,7 +8,7 @@ Deploying new configurations
 
 Define host ports and mount points to map with Docker ports and mounts.
 
-- docker build --tag=uc3/ucdn .
+- docker build --tag=cdluc3/ucdn .
 - docker run \
         --detach \
         --name ${NAME} \
@@ -16,7 +16,7 @@ Define host ports and mount points to map with Docker ports and mounts.
         --publish ${PORT_HTTP}:38080 \
         --volume ${DATADIR}:/apps/ucdn/fileCloud \
         --volume ${LOGDIR}:/apps/ucdn/logs \
-        uc3/ucdn
+        cdluc3/ucdn
 
 Now point browser to https://localhost:${PORT_HTTP}/cloudhost/state/8100?t=xml on linux to check status
 Check log directory to see confirm UCDN is logging correctly
