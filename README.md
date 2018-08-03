@@ -13,14 +13,14 @@ Requirements
 Building Docker image
 ---------------------
 
-This needs only be performed by UC3.  The image will be served by Dockerhub. 
+This needs only be performed by UC3.  For others, the image will be served by Dockerhub. 
 
 - docker build --tag=cdluc3/ucdn .
 
 Deploying image
 ---------------
 
-This will initialize the container and start.  This needs only be performed once
+This will initialize the container and start the service.  This needs only be performed once
 per UCDN instance.  See admin section for subsequent start/stop functions.
 
 Define host ports and mount points to map with Docker ports and mounts.
