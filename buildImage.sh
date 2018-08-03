@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker build --tag cdluc3/ucdn-docker .
+docker build --tag cdluc3/ucdn .
