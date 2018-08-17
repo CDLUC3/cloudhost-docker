@@ -47,8 +47,8 @@ ${LOGDIR} will house the log files.
 Administration tools
 --------------------
 
-To stop the UCDN service, just stop the container.  Same goes for starting.
-Reference the container name defined during initialization.
+To stop the UCDN service, just stop the container.  Same applies for starting.
+These commands must reference the container name defined during initialization.
 
 Stop/Start container
 - docker container stop ${NAME}
