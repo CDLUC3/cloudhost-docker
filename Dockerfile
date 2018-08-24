@@ -25,12 +25,14 @@ ENV ARTIFACT "http://builds.cdlib.org/view/Merritt/job/mrt-cloudhost-pub/ws/clou
 # ############################################################
 # Set up Ucdn user
 # ############################################################
-
+# Data directory: /apps/${ROLE}/fileCloud
+# Log directory: /apps/${ROLE}/logs
+# Application directory: /apps/${ROLE}/cloudhost
 RUN mkdir -p /apps/${ROLE} && \
     mkdir /apps/${ROLE}/cloudhost && \
-    mkdir /apps/${ROLE}/cloudhost/fileCloud && \
     mkdir /apps/${ROLE}/cloudhost/etc && \
     mkdir /apps/${ROLE}/bin && \
+    mkdir /apps/${ROLE}/fileCloud && \
     mkdir /apps/${ROLE}/logs
 RUN groupadd -r ${UCDN_USER} && \
     useradd -d ${WORKDIR} -g ${UCDN_USER} ${UCDN_USER} && \
