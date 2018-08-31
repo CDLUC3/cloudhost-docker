@@ -17,7 +17,7 @@ NAME=ucdn
 # Create container
 docker run \
 	--detach \
-	--restart always \
+	--restart unless-stopped \
 	--name ${NAME} \
 	--publish ${PORT_SSL}:30443 \
 	--publish ${PORT_HTTP}:38080 \
