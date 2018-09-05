@@ -11,8 +11,8 @@ PORT_HTTP=38080
 PORT_SSL=30443
 
 # Bind mount
-LOGDIR=/home/mreyes/UCDN/logs
-DATADIR=/home/mreyes/UCDN/fileCloud
+LOGDIR=/apps/ucdn/logs
+DATADIR=/apps/ucdn/fileCloud
 
 # User and Group ID that owns data/logs (default to root)
 UserID=0
