@@ -24,10 +24,14 @@ This will initialize the container and start the service.  This needs only be pe
 per UCDN instance.  See admin section for subsequent start/stop functions.
 
 Define host ports and mount points to map with Docker ports and mounts.
+If you would like the log files and data to be owned by a non-root user, then specify
+that user in the --user argument.  Default will be root.
 Naming of your container is also available.  
 
 - docker run \
         --detach \
+        --restart unless-stopped \
+        --user ${UserID}:${GroupID} \
         --name ${NAME} \
         --publish ${PORT_SSL}:30443 \
         --publish ${PORT_HTTP}:38080 \
