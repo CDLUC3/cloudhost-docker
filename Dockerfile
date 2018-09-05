@@ -48,8 +48,6 @@ RUN curl --silent --location \
          --output /apps/${ROLE}/cloudhost/mrt-cloudhost-1.0.jar \
 	 ${ARTIFACT}
 
-# As root
-# USER 0
 # Certificate
 COPY data/etc/keystore.jks /apps/${ROLE}/cloudhost/etc/
 # These may be useful to users
