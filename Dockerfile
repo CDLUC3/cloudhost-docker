@@ -19,6 +19,9 @@ ENV CLOUDHOST_PORT 38080
 ENV WORKDIR /apps/${ROLE}
 ENV UCDN_USER ${ROLE}
 
+# Set Java env
+ENV CLASSPATH ${WORKDIR}/cloudhost:.
+
 # Build this from source once repo is public?
 ENV ARTIFACT "http://builds.cdlib.org/view/Merritt/job/mrt-cloudhost-pub/ws/cloudhost-jetty/target/mrt-cloudhostjetty-1.0-SNAPSHOT.jar"
 
@@ -28,21 +31,25 @@ ENV ARTIFACT "http://builds.cdlib.org/view/Merritt/job/mrt-cloudhost-pub/ws/clou
 # Data directory: /apps/${ROLE}/fileCloud
 # Log directory: /apps/${ROLE}/logs
 # Application directory: /apps/${ROLE}/cloudhost
-RUN mkdir -p /apps/${ROLE} && \
-    mkdir /apps/${ROLE}/cloudhost && \
+RUN groupadd -r ${UCDN_USER} && \
+    useradd -d ${WORKDIR} -g ${UCDN_USER} ${UCDN_USER} && \
+    mkdir -p /apps/${ROLE} && \
+    chown -R ${UCDN_USER}:${UCDN_USER} /apps/${ROLE}
+
+USER ${UCDN_USER}
+RUN mkdir /apps/${ROLE}/cloudhost && \
     mkdir /apps/${ROLE}/cloudhost/etc && \
     mkdir /apps/${ROLE}/bin && \
     mkdir /apps/${ROLE}/fileCloud && \
     mkdir /apps/${ROLE}/logs
-RUN groupadd -r ${UCDN_USER} && \
-    useradd -d ${WORKDIR} -g ${UCDN_USER} ${UCDN_USER} && \
-    chown -R ${UCDN_USER}:${UCDN_USER} ${WORKDIR}
 
 # Bytecode
 RUN curl --silent --location \
          --output /apps/${ROLE}/cloudhost/mrt-cloudhost-1.0.jar \
 	 ${ARTIFACT}
 
+# As root
+# USER 0
 # Certificate
 COPY data/etc/keystore.jks /apps/${ROLE}/cloudhost/etc/
 # These may be useful to users
@@ -52,15 +59,17 @@ COPY zip/cloudhost/sslstate.sh ${WORKDIR}/bin/
 COPY zip/cloudhost/state.sh ${WORKDIR}/bin/
 COPY zip/cloudhost/testrun.sh ${WORKDIR}/bin/
 COPY zip/cloudhost/README.txt ${WORKDIR}/bin/
-# Start scripts
+
+# Start scripts and work area
+USER root
 RUN chmod +x ${WORKDIR}/bin/cshrunlog.sh
 RUN chmod +x ${WORKDIR}/bin/cshrun.sh
-
+RUN chown -R ${UCDN_USER}:${UCDN_USER} ${WORKDIR}
+USER ${UCDN_USER}
 
 # ############################################################
 # Expose system
 # ############################################################
-
 EXPOSE ${CLOUDHOST_PORT}/tcp
 EXPOSE ${CLOUDHOST_SSL}/tcp
 VOLUME ${WORKDIR}/cloudhost
