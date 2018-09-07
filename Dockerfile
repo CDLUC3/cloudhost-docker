@@ -15,6 +15,7 @@ ENV ROLE ucdn
 ENV PW cdluc3
 ENV CLOUDHOST_SSL 30443
 ENV CLOUDHOST_PORT 38080
+ENV CLOUDHOST_NODE 8800
 
 ENV WORKDIR /apps/${ROLE}
 ENV UCDN_USER ${ROLE}
@@ -36,12 +37,12 @@ RUN groupadd -r ${UCDN_USER} && \
     mkdir -p /apps/${ROLE} && \
     chown -R ${UCDN_USER}:${UCDN_USER} /apps/${ROLE}
 
-# USER ${UCDN_USER}
+USER ${UCDN_USER}
 RUN mkdir /apps/${ROLE}/cloudhost && \
     mkdir /apps/${ROLE}/cloudhost/etc && \
     mkdir /apps/${ROLE}/bin && \
-    mkdir /apps/${ROLE}/fileCloud && \
-    mkdir /apps/${ROLE}/logs
+    mkdir -p /apps/${ROLE}/fileCloud && \
+    mkdir -p /apps/${ROLE}/logs
 
 # Bytecode
 RUN curl --silent --location \
@@ -59,6 +60,8 @@ COPY zip/cloudhost/testrun.sh ${WORKDIR}/bin/
 COPY zip/cloudhost/README.txt ${WORKDIR}/bin/
 
 # Start scripts and work area
+RUN chown ${UCDN_USER}:${UCDN_USER} ${WORKDIR}
+USER root
 RUN chown -R ${UCDN_USER}:${UCDN_USER} ${WORKDIR}
 RUN chmod 777 ${WORKDIR}/bin/cshrunlog.sh
 RUN chmod 777 ${WORKDIR}/bin/cshrun.sh
@@ -73,4 +76,4 @@ EXPOSE ${CLOUDHOST_SSL}/tcp
 VOLUME ${WORKDIR}/cloudhost
 
 USER ${UCDN_USER}
-CMD /apps/${ROLE}/bin/cshrunlog.sh ${CLOUDHOST_SSL} ${CLOUDHOST_PORT}
+CMD /apps/${ROLE}/bin/cshrunlog.sh ${CLOUDHOST_SSL} ${CLOUDHOST_PORT} ${CLOUDHOST_NODE}
