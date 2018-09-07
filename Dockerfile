@@ -32,11 +32,11 @@ ENV ARTIFACT "http://builds.cdlib.org/view/Merritt/job/mrt-cloudhost-pub/ws/clou
 # Log directory: /apps/${ROLE}/logs
 # Application directory: /apps/${ROLE}/cloudhost
 RUN groupadd -r ${UCDN_USER} && \
-    useradd -d ${WORKDIR} -g ${UCDN_USER} ${UCDN_USER} && \
+    useradd -d ${WORKDIR} -g ${UCDN_USER} -u 5107 ${UCDN_USER} && \
     mkdir -p /apps/${ROLE} && \
     chown -R ${UCDN_USER}:${UCDN_USER} /apps/${ROLE}
 
-USER ${UCDN_USER}
+# USER ${UCDN_USER}
 RUN mkdir /apps/${ROLE}/cloudhost && \
     mkdir /apps/${ROLE}/cloudhost/etc && \
     mkdir /apps/${ROLE}/bin && \
@@ -59,11 +59,11 @@ COPY zip/cloudhost/testrun.sh ${WORKDIR}/bin/
 COPY zip/cloudhost/README.txt ${WORKDIR}/bin/
 
 # Start scripts and work area
-USER root
-RUN chmod +x ${WORKDIR}/bin/cshrunlog.sh
-RUN chmod +x ${WORKDIR}/bin/cshrun.sh
 RUN chown -R ${UCDN_USER}:${UCDN_USER} ${WORKDIR}
-USER ${UCDN_USER}
+RUN chmod 777 ${WORKDIR}/bin/cshrunlog.sh
+RUN chmod 777 ${WORKDIR}/bin/cshrun.sh
+# Eliminate any permission issue
+RUN chmod 777 -R ${WORKDIR}
 
 # ############################################################
 # Expose system
@@ -72,4 +72,5 @@ EXPOSE ${CLOUDHOST_PORT}/tcp
 EXPOSE ${CLOUDHOST_SSL}/tcp
 VOLUME ${WORKDIR}/cloudhost
 
+USER ${UCDN_USER}
 CMD /apps/${ROLE}/bin/cshrunlog.sh ${CLOUDHOST_SSL} ${CLOUDHOST_PORT}
