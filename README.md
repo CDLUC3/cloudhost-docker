@@ -25,13 +25,13 @@ per UCDN instance.  See admin section for subsequent start/stop functions.
 
 Define host ports and mount points to map with Docker ports and mounts.
 If you would like the log files and data to be owned by a non-root user, then specify
-that user in the --user argument.  Default will be root.
+that user in the --user argument as a numeric UID/GID.  Default will be the root user.
 Naming of your container is also available.  
 
 - docker run \
         --detach \
         --restart unless-stopped \
-        --user ${UserID}:${GroupID} \
+        --user ${USERID}:${GROUPID} \
         --name ${NAME} \
         --publish ${PORT_SSL}:30443 \
         --publish ${PORT_HTTP}:38080 \
