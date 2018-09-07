@@ -32,7 +32,7 @@ ENV ARTIFACT "http://builds.cdlib.org/view/Merritt/job/mrt-cloudhost-pub/ws/clou
 # Log directory: /apps/${ROLE}/logs
 # Application directory: /apps/${ROLE}/cloudhost
 RUN groupadd -r ${UCDN_USER} && \
-    useradd -d ${WORKDIR} -g ${UCDN_USER} -u 5107 ${UCDN_USER} && \
+    useradd -d ${WORKDIR} -g ${UCDN_USER} ${UCDN_USER} && \
     mkdir -p /apps/${ROLE} && \
     chown -R ${UCDN_USER}:${UCDN_USER} /apps/${ROLE}
 
