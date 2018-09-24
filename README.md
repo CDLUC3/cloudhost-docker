@@ -43,7 +43,7 @@ Test the container
 ------------------
 
 The following URL on the deployed host will check UCDN status:
-    http://localhost:${PORT_HTTP}/cloudhost/state/8800?t=xml 
+    http://localhost:${PORT_HTTP}/cloudhost/state?t=xml 
 
 ${DATADIR} will house the pairtree data.
 ${LOGDIR} will house the log files.
