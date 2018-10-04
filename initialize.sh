@@ -4,15 +4,15 @@
 # START user settings START
 # -------------------------
 # Container name
-NAME=ucdn
+NAME=cloudhost
 
 # Ports
 PORT_HTTP=38080
 PORT_SSL=30443
 
 # Bind mount
-LOGDIR=/apps/ucdn/logs
-DATADIR=/apps/ucdn/fileCloud
+LOGDIR=/apps/cloudhost/logs
+DATADIR=/apps/cloudhost/fileCloud
 
 # User and Group ID (numeric) that owns data/logs [default to 0 (root)]
 USERID=0
@@ -38,8 +38,8 @@ docker run \
 	--name ${NAME} \
 	--publish ${PORT_SSL}:30443 \
 	--publish ${PORT_HTTP}:38080 \
-	--volume ${DATADIR}:/apps/ucdn/fileCloud \
-	--volume ${LOGDIR}:/apps/ucdn/logs \
-	cdluc3/ucdn
+	--volume ${DATADIR}:/apps/cloudhost/fileCloud \
+	--volume ${LOGDIR}:/apps/cloudhost/logs \
+	cdluc3/cloudhost
 
 exit

@@ -1,24 +1,24 @@
-# image: ucdn-docker
+# image: cloudhost
 ARG JAVA_VERSION=8
 FROM openjdk:${JAVA_VERSION}
-LABEL "org.cdlib.uc3"="UCDN docker v.1"  \
+LABEL "org.cdlib.uc3"="Cloudhost docker v.1"  \
       "maintainer"="mark.reyes@ucop.edu"
-RUN echo "Building UCDN docker image"
+RUN echo "Building Cloudhost docker image"
 
 
 # ############################################################
 # Environment
 # ############################################################
 
-# From UCDN start scripts
-ENV ROLE ucdn
+# From Cloudhost start scripts
+ENV ROLE cloudhost
 ENV PW cdluc3
 ENV CLOUDHOST_SSL 30443
 ENV CLOUDHOST_PORT 38080
 ENV CLOUDHOST_NODE 8800
 
 ENV WORKDIR /apps/${ROLE}
-ENV UCDN_USER ${ROLE}
+ENV CLOUDHOST_USER ${ROLE}
 
 # Set Java env
 ENV CLASSPATH ${WORKDIR}/cloudhost:.
@@ -27,17 +27,17 @@ ENV CLASSPATH ${WORKDIR}/cloudhost:.
 ENV ARTIFACT "http://builds.cdlib.org/view/Merritt/job/mrt-cloudhost-pub/ws/cloudhost-jetty/target/mrt-cloudhostjetty-1.0-SNAPSHOT.jar"
 
 # ############################################################
-# Set up Ucdn user
+# Set up cloudhost user
 # ############################################################
 # Data directory: /apps/${ROLE}/fileCloud
 # Log directory: /apps/${ROLE}/logs
 # Application directory: /apps/${ROLE}/cloudhost
-RUN groupadd -r ${UCDN_USER} && \
-    useradd -d ${WORKDIR} -g ${UCDN_USER} ${UCDN_USER} && \
+RUN groupadd -r ${CLOUDHOST_USER} && \
+    useradd -d ${WORKDIR} -g ${CLOUDHOST_USER} ${CLOUDHOST_USER} && \
     mkdir -p /apps/${ROLE} && \
-    chown -R ${UCDN_USER}:${UCDN_USER} /apps/${ROLE}
+    chown -R ${CLOUDHOST_USER}:${CLOUDHOST_USER} /apps/${ROLE}
 
-USER ${UCDN_USER}
+USER ${CLOUDHOST_USER}
 RUN mkdir /apps/${ROLE}/cloudhost && \
     mkdir /apps/${ROLE}/cloudhost/etc && \
     mkdir /apps/${ROLE}/bin && \
@@ -60,9 +60,9 @@ COPY zip/cloudhost/testrun.sh ${WORKDIR}/bin/
 COPY zip/cloudhost/README.txt ${WORKDIR}/bin/
 
 # Start scripts and work area
-RUN chown ${UCDN_USER}:${UCDN_USER} ${WORKDIR}
+RUN chown ${CLOUDHOST_USER}:${CLOUDHOST_USER} ${WORKDIR}
 USER root
-RUN chown -R ${UCDN_USER}:${UCDN_USER} ${WORKDIR}
+RUN chown -R ${CLOUDHOST_USER}:${CLOUDHOST_USER} ${WORKDIR}
 RUN chmod 777 ${WORKDIR}/bin/cshrunlog.sh
 RUN chmod 777 ${WORKDIR}/bin/cshrun.sh
 # Eliminate any permission issue
@@ -75,5 +75,5 @@ EXPOSE ${CLOUDHOST_PORT}/tcp
 EXPOSE ${CLOUDHOST_SSL}/tcp
 VOLUME ${WORKDIR}/cloudhost
 
-USER ${UCDN_USER}
+USER ${CLOUDHOST_USER}
 CMD /apps/${ROLE}/bin/cshrunlog.sh ${CLOUDHOST_SSL} ${CLOUDHOST_PORT} ${CLOUDHOST_NODE}

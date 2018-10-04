@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 # Container name
-NAME=ucdn
+NAME=cloudhost
 
 docker container start ${NAME}

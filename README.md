@@ -1,7 +1,7 @@
-UCDN Docker
-===========
+Cloudhost Docker
+================
 
-This is the build and deployment instructions for the UCDN service under Docker.
+This is the build and deployment instructions for the CLoudhost service under Docker.
 
 Requirements
 ------------
@@ -15,13 +15,13 @@ Building Docker image
 
 This needs only be performed by UC3.  For others, the image will be served by Dockerhub. 
 
-- docker build --tag=cdluc3/ucdn .
+- docker build --tag=cdluc3/cloudhost .
 
 Deploying image
 ---------------
 
 This will initialize the container and start the service.  This needs only be performed once
-per UCDN instance.  See admin section for subsequent start/stop functions.
+per Cloudhost instance.  See admin section for subsequent start/stop functions.
 
 Define host ports and mount points to map with Docker ports and mounts.
 If you would like the log files and data to be owned by a non-root user, then specify
@@ -35,14 +35,14 @@ Naming of your container is also available.
         --name ${NAME} \
         --publish ${PORT_SSL}:30443 \
         --publish ${PORT_HTTP}:38080 \
-        --volume ${DATADIR}:/apps/ucdn/fileCloud \
-        --volume ${LOGDIR}:/apps/ucdn/logs \
-        cdluc3/ucdn
+        --volume ${DATADIR}:/apps/cloudhost/fileCloud \
+        --volume ${LOGDIR}:/apps/cloudhost/logs \
+        cdluc3/cloudhost
 
 Test the container
 ------------------
 
-The following URL on the deployed host will check UCDN status:
+The following URL on the deployed host will check Cloudhost status:
     http://localhost:${PORT_HTTP}/cloudhost/state?t=xml 
 
 ${DATADIR} will house the pairtree data.
@@ -51,14 +51,14 @@ ${LOGDIR} will house the log files.
 Administration tools
 --------------------
 
-To stop the UCDN service, just stop the container.  Same applies for starting.
+To stop the Cloudhost service, just stop the container.  Same applies for starting.
 These commands must reference the container name defined during initialization.
 
 Stop/Start container
 - docker container stop ${NAME}
 - docker container start ${NAME}
 
-To examine UCDN container for debugging.
+To examine Cloudhost container for debugging.
 - docker exec -it ${NAME} /bin/bash
 
 Template scripts
